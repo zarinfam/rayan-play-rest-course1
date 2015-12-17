@@ -1,44 +1,30 @@
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import models.Post;
+import org.junit.Test;
+import play.mvc.Result;
+
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.*;
-
-import play.mvc.*;
-import play.test.*;
-import play.data.DynamicForm;
-import play.data.validation.ValidationError;
-import play.data.validation.Constraints.RequiredValidator;
-import play.i18n.Lang;
-import play.libs.F;
-import play.libs.F.*;
-import play.twirl.api.Content;
-
+import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
-import static org.junit.Assert.*;
 
-
-/**
-*
-* Simple (JUnit) tests that can call all parts of a play app.
-* If you are interested in mocking a whole application, see the wiki for more details.
-*
-*/
 public class ApplicationTest {
 
     @Test
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertEquals(2, a);
-    }
+    public void listPosts_getAllPostValues_ReturnList() throws IOException {
+        start(fakeApplication());
 
-    @Test
-    public void renderTemplate() {
-        Content html = views.html.index.render("Your new application is ready.");
-        assertEquals("text/html", contentType(html));
-        assertTrue(contentAsString(html).contains("Your new application is ready."));
+        Result result = route(fakeRequest(GET, "/posts"));
+        assertThat(result).isNotNull();
+        assertThat(status(result)).isEqualTo(OK);
+
+        List<Post> posts = new ObjectMapper().readValue(contentAsString(result),
+                TypeFactory.defaultInstance().constructCollectionType(List.class, Post.class));
+
+        assertThat(posts.size()).isEqualTo(3);
     }
 
 
