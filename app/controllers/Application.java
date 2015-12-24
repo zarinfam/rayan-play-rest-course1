@@ -2,8 +2,10 @@ package controllers;
 
 import models.Post;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,15 @@ public class Application extends Controller {
 
     public static Result listPosts() {
         return ok(Json.toJson(postList));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result createPost() {
+        Post post = Json.fromJson(Controller.request().body().asJson(), Post.class);
+
+        postList.add(post);
+
+        return Results.ok();
     }
 
 }

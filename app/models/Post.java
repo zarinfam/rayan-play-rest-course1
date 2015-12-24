@@ -21,6 +21,10 @@ public class Post {
         this.publishDate = publishDate;
     }
 
+    public Post(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }
