@@ -1,35 +1,36 @@
 package models;
 
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
- * Created by saeed on 12/17/15.
+ * Created by saeed on 12/22/15.
  */
+
+@Entity
 public class Post {
-    private long id;
+    @Id
+    @GeneratedValue
+    private Long id;
     private String title;
     private String content;
     private Date publishDate;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Tag> tags;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User writer;
+
     public Post() {
     }
 
-    public Post(long id, String title, String content, Date publishDate) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.publishDate = publishDate;
-    }
-
-    public Post(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,5 +56,21 @@ public class Post {
 
     public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public User getWriter() {
+        return writer;
+    }
+
+    public void setWriter(User writer) {
+        this.writer = writer;
     }
 }
