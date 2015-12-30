@@ -28,7 +28,7 @@ public class UserControllerTest {
         globalTest.applicationContext.getBean(UserService.class).create(new User("Ali"));
         globalTest.applicationContext.getBean(UserService.class).create(new User("Mohammad"));
 
-        Result result = route(fakeRequest(GET, "/posts"));
+        Result result = route(fakeRequest(GET, "/users"));
         assertThat(result).isNotNull();
         assertThat(status(result)).isEqualTo(OK);
 

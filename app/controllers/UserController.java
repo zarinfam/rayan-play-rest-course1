@@ -21,7 +21,7 @@ public class UserController {
     @Inject
     private UserService userService;
 
-    public Result listPosts() {
+    public Result listUsers() {
         return Results.ok(Json.toJson(userService.findAllUser()));
     }
 
