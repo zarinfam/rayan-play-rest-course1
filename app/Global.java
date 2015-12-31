@@ -7,7 +7,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import play.Application;
 import play.GlobalSettings;
+import play.libs.F;
 import play.libs.Json;
+import play.mvc.Http;
+import play.mvc.Result;
 
 /**
  * Created by saeed on 9/March/15 AD.
@@ -50,4 +53,8 @@ public class Global extends GlobalSettings {
         return mapper;
     }
 
+    @Override
+    public F.Promise<Result> onError(Http.RequestHeader requestHeader, Throwable throwable) {
+        return super.onError(requestHeader, throwable);
+    }
 }

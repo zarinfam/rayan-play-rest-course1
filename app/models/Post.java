@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -20,6 +22,7 @@ public class Post {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Tag> tags;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User writer;
 
