@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import configs.AppConfig;
 import configs.DataConfig;
@@ -9,8 +10,12 @@ import play.Application;
 import play.GlobalSettings;
 import play.libs.F;
 import play.libs.Json;
+import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by saeed on 9/March/15 AD.
@@ -54,7 +59,18 @@ public class Global extends GlobalSettings {
     }
 
     @Override
-    public F.Promise<Result> onError(Http.RequestHeader requestHeader, Throwable throwable) {
-        return super.onError(requestHeader, throwable);
+    public F.Promise<Result> onError(Http.RequestHeader requestHeader, Throwable cause) {
+        String title = "بروز خطا در سیستم";
+        String description = cause.getMessage();
+        int httpStatusCode = Http.Status.INTERNAL_SERVER_ERROR;
+
+
+        ObjectNode jsonMessage = Json.newObject().put("title", title)
+                .put("description", description)
+                .put("errorType", cause.getClass().getName());
+
+        return F.Promise.<Result>pure(Results.status(httpStatusCode, jsonMessage));
+
     }
+
 }
