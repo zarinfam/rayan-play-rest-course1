@@ -10,12 +10,9 @@ import play.Application;
 import play.GlobalSettings;
 import play.libs.F;
 import play.libs.Json;
-import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
-
-import java.lang.reflect.Method;
 
 /**
  * Created by saeed on 9/March/15 AD.
@@ -64,6 +61,7 @@ public class Global extends GlobalSettings {
         String description = cause.getMessage();
         int httpStatusCode = Http.Status.INTERNAL_SERVER_ERROR;
 
+        //exception parsing
 
         ObjectNode jsonMessage = Json.newObject().put("title", title)
                 .put("description", description)
@@ -72,5 +70,4 @@ public class Global extends GlobalSettings {
         return F.Promise.<Result>pure(Results.status(httpStatusCode, jsonMessage));
 
     }
-
 }
